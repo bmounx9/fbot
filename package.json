@@ -2,7 +2,7 @@
   "name": "fbot",
   "version": "0.0.0",
   "private": true,
-  "author": "Brian Mounmaivong <bmounmanivong@gmail.com>",
+  "author": "Brian Mounmanivong <bmounmanivong@gmail.com>",
   "description": "A bot to fulfill your fanasy",
   "dependencies": {
     "hubot": "^2.15.0",
