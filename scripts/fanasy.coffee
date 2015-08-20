@@ -9,4 +9,6 @@ module.exports = (robot) ->
 
   robot.respond /beer me/i, (msg) ->
     msg.send ":beer:"
-    
+
+  robot.respond /draft order/i, (msg) ->
+    msg.send "```1. Mark\n2. Tom\n3. Eric"
