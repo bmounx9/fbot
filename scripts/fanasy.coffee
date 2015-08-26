@@ -1,4 +1,5 @@
 Redis = require "redis"
+Url = require "url"
 
 module.exports = (robot) ->
 
