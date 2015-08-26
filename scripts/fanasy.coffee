@@ -2,8 +2,8 @@
 #   fbot is a fanasy football bot
 #
 # Commands:
-#   fbot nfl teams : lists nfl teams
-#   fbot nfl schedule (week #) : lists schedule for week
+#   fbot nfl teams - lists nfl teams
+#   fbot nfl schedule <week #> - lists schedule for week
 #
 # Author:
 #   bmounx9
@@ -73,7 +73,6 @@ module.exports = (robot) ->
       if err
         throw err
       else if reply
-
         cb buildList(JSON.parse(reply), msg.match[3])
       else
         msg.http("http://www.fantasyfootballnerd.com/service/schedule/json/shh3nn6ie9qt/")
