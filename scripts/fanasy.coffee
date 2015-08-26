@@ -1,3 +1,13 @@
+# Description:
+#   fbot is a fanasy football bot
+#
+# Commands:
+#   fbot nfl teams : lists nfl teams
+#
+# Author:
+#   bmounx9
+#
+
 Redis = require "redis"
 Url = require "url"
 
@@ -30,19 +40,16 @@ module.exports = (robot) ->
 
   robot.respond /nfl teams(.*)/i, (msg) ->
     cb = (m) -> msg.send "```" + m + "```"
-    data = {};
-    client.get 'nflTeams', (err, reply) ->
+    data = client.get 'nflTeams', (err, reply) ->
       if err
         throw err
       else if reply
-        console.log(reply);
-        data = JSON.parse(reply)
+        return JSON.parse(reply)
       else
         msg.http("http://www.fantasyfootballnerd.com/service/nfl-teams/json/shh3nn6ie9qt/")
           .get() (err,res,body) ->
-            data = JSON.parse(body)
             client.set 'nflTeams', body
-    console.log(data);
+            return JSON.parse(body)
     for m in data
       if list
         list = list + '\n' + m.fullName
