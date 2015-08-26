@@ -30,7 +30,6 @@ module.exports = (robot) ->
 
   robot.respond /nfl teams(.*)/i, (msg) ->
     cb = (m) -> msg.send "```" + m + "```"
-    data = {}
     client.get "nflTeams", (err, reply) ->
       if err
         throw err
@@ -41,7 +40,7 @@ module.exports = (robot) ->
           .get() (err,res,body) ->
             data = JSON.parse(body)
             client.set 'nflTeams', body
-    for m in response['NFLTeams']
+    for m in data
       if list
         list = list + '\n' + m.fullName
       else
