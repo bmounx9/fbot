@@ -12,8 +12,7 @@ Redis = require "redis"
 Url = require "url"
 
 module.exports = (robot) ->
-
-  info   = Url.parse process.env.REDISTOGO_URL or process.env.REDISCLOUD_URL or process.env.BOXEN_REDIS_URL or process.env.REDIS_URL or 'redis://localhost:6379', true
+  info = Url.parse process.env.REDISTOGO_URL or process.env.REDISCLOUD_URL or process.env.BOXEN_REDIS_URL or process.env.REDIS_URL or 'redis://localhost:6379', true
   client = Redis.createClient(info.port, info.hostname)
 
   client.on "connect", ->
@@ -28,7 +27,7 @@ module.exports = (robot) ->
   robot.respond /yo mama (.*)/i, (msg) ->
     cb = (m) -> msg.send m
     msg.http("http://api.yomomma.info/")
-    .get() (err,res,body) ->
+    .get() (err, res, body) ->
       joke_response = JSON.parse(body)
       cb msg.match[1] + ", " + joke_response.joke
 
@@ -47,20 +46,21 @@ module.exports = (robot) ->
         return JSON.parse(reply)
       else
         msg.http("http://www.fantasyfootballnerd.com/service/nfl-teams/json/shh3nn6ie9qt/")
-          .get() (err,res,body) ->
-            client.set 'nflTeams', body
-            return JSON.parse(body)
+        .get() (err, res, body) ->
+          client.set 'nflTeams', body
+          return JSON.parse(body)
     for m in data
       if list
         list = list + '\n' + m.fullName
       else
         list = getName(m)
+    console.log(data)
     cb list
 
   robot.respond /nfl schedule( )?(week )?([0-9][0-9]?)?/i, (msg) ->
     cb = (m) -> msg.send "```" + m + "```"
     msg.http("http://www.fantasyfootballnerd.com/service/schedule/json/shh3nn6ie9qt/")
-    .get() (err,res,body) ->
+    .get() (err, res, body) ->
       response = JSON.parse(body)
       match = if msg.match[3] then msg.match[3] else ''
       for m in response['Schedule']
