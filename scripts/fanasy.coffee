@@ -30,6 +30,7 @@ module.exports = (robot) ->
 
   robot.respond /nfl teams(.*)/i, (msg) ->
     cb = (m) -> msg.send "```" + m + "```"
+    data = {}
     client.get "nflTeams", (err, reply) ->
       if err
         throw err
