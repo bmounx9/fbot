@@ -15,17 +15,26 @@ module.exports = (robot) ->
 
   robot.respond /fanasy nfl teams(.*)/i, (msg) ->
     cb = (m) -> msg.send "```" + m + "```"
-    getName = (m) ->
-      if m.fullName != 'undefined'
-        return m.fullName
-      else
-        return ''
     msg.http("http://www.fantasyfootballnerd.com/service/nfl-teams/json/shh3nn6ie9qt/")
     .get() (err,res,body) ->
       response = JSON.parse(body)
       for m in response['NFLTeams']
         if list
-          list = list + '\n' + getName(m)
+          list = list + '\n' + m.fullName
         else
           list = getName(m)
+      cb list
+
+  robot.respond /fanasy nfl schedule( )?(week )?([0-9][0-9]?)?/i, (msg) ->
+    cb = (m) -> msg.send "```" + m + "```"
+    msg.http("http://www.fantasyfootballnerd.com/service/schedule/json/shh3nn6ie9qt/")
+    .get() (err,res,body) ->
+      response = JSON.parse(body)
+      match = if msg.match[3] then msg.match[3] else ''
+      for m in response['Schedule']
+        if (match && m.gameWeek == match) || msg.match[3] == ''
+          if list
+            list = list + '\n' + m.awayTeam + ' at ' + m.homeTeam + ' [ ' + m.gameDate + ' ' + m.gameTimeET + ' ]'
+          else
+            list = m.awayTeam + ' at ' + m.homeTeam + ' [ ' + m.gameDate + ' ' + m.gameTimeET + ' ]'
       cb list
